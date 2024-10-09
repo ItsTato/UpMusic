@@ -1,0 +1,133 @@
+.body {
+	background-color: var(--dark-background-main);
+	color: var(--dark-fore-main);
+	font-family: 'Cascadia Code', monospace;
+}
+
+.sidebar {
+	background-color: var(--dark-background-secondary);
+	position: absolute;
+	height: 100%;
+	top: 0px;
+	left: 0px;
+	width: 200px;
+	z-index: 10;
+}
+
+.home-button {
+	position: relative;
+	height: 56px;
+	top: 60px;
+	width: 100%;
+	background-color: var(--dark-background-secondary);
+	transition: all ease 0.25s;
+}
+
+.home-button:hover {
+	background-color: var(--dark-background-tertiary);
+	cursor: pointer;
+}
+
+.home-button-image {
+	position: relative;
+	top: 6px;
+}
+
+.home-button-text {
+	position: relative;
+	left: -6px;
+	top: -6px;
+	font-size: 32px;
+}
+
+.library-button {
+	position: relative;
+	height: 56px;
+	top: 60px;
+	width: 100%;
+	background-color: var(--dark-background-secondary);
+	transition: all ease 0.25s;
+}
+
+.library-button:hover {
+	background-color: var(--dark-background-tertiary);
+	cursor: pointer;
+}
+
+.library-button-image {
+	position: relative;
+	top: 6px;
+}
+
+.library-button-text {
+	position: relative;
+	left: -6px;
+	top: -6px;
+	font-size: 32px;
+}
+
+.mini-player {
+	position: absolute;
+	bottom: 0px;
+	width: 100%;
+	height: 324px;
+	background-color: var(--dark-background-tertiary);
+	border-radius: 12px 12px 0px 0px;
+}
+
+.mini-player-cover {
+	border-radius: 12px 12px 0px 0px;
+	object-fit: cover;
+	object-position: top;
+}
+
+.mini-player-play {
+	position: absolute;
+	bottom: 12px;
+	left: 50%;
+	transform: translateX(-50%);
+	border-radius: 50%;
+	transition: all ease 0.05s;
+}
+
+.mini-player-play:hover {
+	bottom: 10px;
+	border: solid 3px #000;
+	cursor: pointer;
+}
+
+.mini-player-bar {
+	background-color: var(--dark-background-main);
+	border-radius: 2px;
+	position: relative;
+	height: 16px;
+	width: 192px;
+	left: 3px;
+}
+
+.mini-player-bar-filled {
+	background-color: var(--dark-background-secondary);
+	border-radius: 2px;
+	position: relative;
+	height: 16px;
+	width: 100%;
+}
+
+.toptext {
+	position: absolute;
+	top: 6px;
+	left: 14px;
+	font-size: 40px;
+	z-index: 30;
+}
+
+.topbar {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 60px;
+	background-color: var(--dark-background-tertiary);
+	box-shadow: -1px 4px 3px #0a0a0a;
+	z-index: 20;
+}

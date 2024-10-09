@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" href="/static/icons/favicon.ico">
+		<title>UpMusic</title>
+
+		<link href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;700&display=swap" rel="stylesheet">
+
+		<link rel="stylesheet" href="/static/css/all.css">
+		<link rel="stylesheet" href="/static/css/app.css">
+	</head>
+	<body class="body">
+		<div class="sidebar" id="sidebar">
+			<div class="home-button" id="home-button">
+				<img class="home-button-image" id="home-button-image" src="/static/icons/home.png" width="48" height="48">
+				<span class="home-button-text" id="home-button-text">Home</span>
+			</div>
+			<div class="library-button" id="library-button">
+				<img class="library-button-image" id="library-button-image" src="/static/icons/library.png" width="48" height="48">
+				<span class="library-button-text" id="library-button-text">Library</span>
+			</div>
+
+			<div class="mini-player">
+				<img class="mini-player-cover" id="mini-player-cover" src="/images/1" width="200" height="200">
+
+				<div class="mini-player-bar" id="mini-player-bar">
+					<div class="mini-player-bar-filled" id="mini-player-bar-filled"></div>
+				</div>
+
+				<img class="mini-player-play" id="mini-player-play" src="/static/icons/play.png" width="48" height="48">
+
+				<audio id="mini-player-audio" src="/music/1"></audio>
+			</div>
+		</div>
+
+		<div class="topbar" id="topbar">
+			<div class="toptext" id="toptext">UpMusic</div>
+		</div>
+
+		<script src="/static/js/app.js"></script>
+	</body>
+</html>
