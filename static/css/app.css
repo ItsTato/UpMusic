@@ -97,7 +97,7 @@
 }
 
 .mini-player-bar {
-	background-color: var(--dark-background-main);
+	background-color: var(--dark-background-secondary);
 	border-radius: 2px;
 	position: relative;
 	height: 16px;
@@ -106,11 +106,22 @@
 }
 
 .mini-player-bar-filled {
-	background-color: var(--dark-background-secondary);
+	background-color: var(--dark-background-main);
 	border-radius: 2px;
 	position: relative;
 	height: 16px;
 	width: 100%;
+}
+
+.mini-player-current {
+	position: absolute;
+	top: -1px;
+}
+
+.mini-player-duration {
+	position: absolute;
+	top: -1px;
+	right: 1px;
 }
 
 .toptext {

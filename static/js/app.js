@@ -14,7 +14,19 @@ const miniPlayerPlayButton = document.getElementById("mini-player-play");
 const miniPlayerBarFilled = document.getElementById("mini-player-bar-filled");
 const miniPlayerCover = document.getElementById("mini-player-cover");
 
+const miniPlayerCurrentTime = document.getElementById("mini-player-current");
+const miniPlayerDurationTime = document.getElementById("mini-player-duration");
+
 miniPlayerAudioNode.controls = false;
+
+function updateTimes() {
+	miniPlayerCurrentTime.textContent = new Date(miniPlayerAudioNode.currentTime*1000)
+		.toISOString()
+		.substr(11,8);
+	miniPlayerDurationTime.textContent = new Date(miniPlayerAudioNode.duration*1000)
+		.toISOString()
+		.substr(11,8);
+};
 
 function playAudio() {
 	miniPlayerAudioNode.play();
@@ -56,6 +68,7 @@ miniPlayerPlayButton.addEventListener("click", (e) => {
 });
 
 miniPlayerAudioNode.addEventListener("timeupdate", (e) => {
+	updateTimes();
 	const prog = (100/(miniPlayerAudioNode.duration*1000))*(miniPlayerAudioNode.currentTime*1000);
 	miniPlayerBarFilled.style.width = `${prog}%`;
 	if (prog == 100) {
