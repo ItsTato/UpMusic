@@ -17,6 +17,13 @@ const miniPlayerCover = document.getElementById("mini-player-cover");
 const miniPlayerCurrentTime = document.getElementById("mini-player-current");
 const miniPlayerDurationTime = document.getElementById("mini-player-duration");
 
+var currentSongData = {
+	title: "None",
+	artist: "None",
+	audio_id: 0,
+	thumbnail_id: 0
+}
+
 miniPlayerAudioNode.controls = false;
 
 function updateTimes() {
@@ -41,10 +48,10 @@ function pauseAudio() {
 function updateMedioSess() {
 	if ("mediaSession" in navigator) {
 		navigator.mediaSession.metadata = new MediaMetadata({
-			title: "Mr. Blue Sky",
-			artist: "Electric Light Orchestra",
+			title: currentSongData.title,
+			artist: currentSongData.artist,
 			artwork: [
-				{ src: miniPlayerCover.src, sizes: "512x512" }
+				{ src: `/files/images/${currentSongData.thumbnail_id}`, sizes: "512x512" }
 			]
 		});
 
@@ -75,3 +82,24 @@ miniPlayerAudioNode.addEventListener("timeupdate", (e) => {
 		miniPlayerPlayButton.src = "/static/icons/play.png";
 	};
 });
+
+function updateAudioPlayer() {
+	miniPlayerAudioNode.src = `/files/audio/${currentSongData.audio_id}`;
+	miniPlayerCover.src = `/files/images/${currentSongData.thumbnail_id}`;
+	updateMedioSess();
+	updateTimes();
+}
+
+function setMiniPlayerSong(song_id) {
+	fetch(`/songs/${song_id}`)
+		.then((r) => {
+			return r.json();
+		})
+		.then((data) => {
+			currentSongData = data;
+			updateAudioPlayer();
+			pauseAudio();
+		});
+};
+
+setMiniPlayerSong(1);

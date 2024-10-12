@@ -7,13 +7,24 @@ site:Flask = Flask(__name__)
 def index():
 	return flask.redirect("/app")
 
-@site.route("/images/<image_id>")
-def images_id(image_id:int):
-	return flask.send_from_directory("./data/images",f"{image_id}.png")
+@site.route("/songs/<song_id>")
+def songs_id(song_id:int):
+	song_id = int(song_id)
+	if song_id == 1:
+		return {
+			"title": "Mr. Blue Sky",
+			"artist": "Electric Light Orchestra",
+			"audio_id": 1,
+			"thumbnail_id": 1
+		}
 
-@site.route("/music/<music_id>")
-def music_id(music_id:int):
-	return flask.send_from_directory("./data/music",f"{music_id}.mp3")
+@site.route("/files/audio/<audio_id>")
+def files_audio_id(audio_id:int):
+	return flask.send_from_directory("./data/audio",f"{audio_id}.mp3")
+
+@site.route("/files/images/<image_id>")
+def files_images_id(image_id:int):
+	return flask.send_from_directory("./data/images",f"{image_id}.png")
 
 @site.route("/app",methods=["GET"])
 def app():

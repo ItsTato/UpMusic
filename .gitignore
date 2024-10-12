@@ -1,4 +1,5 @@
 .venv
 *.pyc
 data/music/*
+data/audio/*
 data/images/*
