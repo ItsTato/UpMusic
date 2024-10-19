@@ -23,6 +23,7 @@ def main(argv:list[str],argc:int):
 				imageExtension = split[1]
 				image:Objects.Image = controller.newImage(imageExtension.lower())
 				move(imageFileName,f"./data/images/{image.id}.{image.file_extension}")
+				print(f"[$] Image with ID {image.id} created")
 				exit()
 			if argv[2] == "artist":
 				name:str = input("Name: ")
@@ -31,7 +32,8 @@ def main(argv:list[str],argc:int):
 				if pfp is None:
 					print("[!] Image ID is invalid")
 					exit()
-				controller.newArtist(name,pfp)
+				artist:Objects.Artist = controller.newArtist(name,pfp)
+				print(f"[$] Artist with ID {artist.id} created")
 				exit()
 			if argv[2] == "audio":
 				audioFileName:str = f"./{argv[argc-1]}"
@@ -42,6 +44,7 @@ def main(argv:list[str],argc:int):
 				audioExtension = split[1]
 				audio:Objects.Audio = controller.newAudio(audioExtension.lower())
 				move(audioFileName,f"./data/audios/{audio.id}.{audio.file_extension}")
+				print(f"[$] Audio with ID {audio.id} created")
 				exit()
 			if argv[2] == "song":
 				name:str = input("Name: ")
@@ -60,7 +63,8 @@ def main(argv:list[str],argc:int):
 				if song_audio is None:
 					print("[!] Audio ID is invalid")
 					exit()
-				controller.newSong(name,song_artist,song_thumbnail,song_audio)
+				song:Objects.Song = controller.newSong(name,song_artist,song_thumbnail,song_audio)
+				print(f"[$] Song with ID {song.id} created")
 				exit()
 
 main(argv,argc)

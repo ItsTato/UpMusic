@@ -6,7 +6,7 @@ import os
 class Controller:
 	def __init__(self,location:str) -> None:
 		try:
-			self.__connection = sqlite3.connect(location,check_same_thread=True)
+			self.__connection = sqlite3.connect(location,check_same_thread=False)
 		except:
 			print(f"Could not connect to database at {location}")
 			exit()
@@ -194,7 +194,7 @@ class Controller:
 			raw_song[0],
 			raw_song[1],
 			self.getArtist(raw_song[2]),#type:ignore
-			self.getImage(raw_artist[3]),#type:ignore
+			self.getImage(raw_song[3]),#type:ignore
 			self.getAudio(raw_song[4])#type:ignore
 		)
 		return song
