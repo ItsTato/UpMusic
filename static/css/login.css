@@ -1,0 +1,87 @@
+.body {
+	background-color: var(--dark-background-tertiary);
+	color: var(--dark-fore-main);
+	font-family: 'Cascadia Code', monospace;
+}
+
+.login {
+	background-color: var(--dark-background-main);
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+	width: 380px;
+	height: 286px;
+	border-radius: 12px;
+}
+
+.login-title {
+	position: absolute;
+	top: 4px;
+	font-size: 36px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.login-subtitle {
+	position: absolute;
+	top: 48px;
+	left: 50%;
+	min-width: 380px;
+	transform: translateX(-50%);
+	font-style: italic;
+	text-align: center;
+}
+
+.form-username-label {
+	position: absolute;
+	left: 12px;
+	top: 72px;
+	font-size: 28px;
+}
+
+.form-username-input {
+	position: absolute;
+	left: 12px;
+	right: 12px;
+	top: 104px;
+	height: 24px;
+	font-size: 24px;
+}
+
+.form-password-label {
+	position: absolute;
+	left: 12px;
+	top: 142px;
+	font-size: 28px;
+}
+
+.form-password-input {
+	position: absolute;
+	left: 12px;
+	right: 12px;
+	top: 174px;
+	height: 24px;
+	font-size: 24px;
+}
+
+.form-submit-button {
+	position: absolute;
+	background-color: var(--dark-button-active);
+	top: 224px;
+	left: 12px;
+	right: 12px;
+	height: 48px;
+	border-radius: 6px;
+	color: var(--dark-fore-main);
+	border: 0px;
+	font-size: 32px;
+	font-family: 'Cascadia Code', monospace;
+	font-weight: bold;
+	transition: all .25s ease;
+}
+
+.form-submit-button:hover {
+	cursor: pointer;
+	background-color: var(--dark-button-hover);
+}
