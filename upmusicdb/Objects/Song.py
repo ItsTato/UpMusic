@@ -1,12 +1,14 @@
 from .Artist import Artist
 from .Image import Image
+from .Audio import Audio
 
 class Song:
-	def __init__(self,song_id:int,name:str,artist:Artist,thumbnail:Image):
+	def __init__(self,song_id:int,name:str,artist:Artist,thumbnail:Image,audio:Audio):
 		self.__id:int = song_id
 		self.__name:str = name
 		self.__artist:Artist = artist
 		self.__thumbnail:Image = thumbnail
+		self.__audio:Audio = audio
 	
 	@property
 	def id(self) -> int:
@@ -35,3 +37,10 @@ class Song:
 	@thumbnail.setter
 	def thumbnail(self,new_thumbnail:Image) -> None:
 		self.__thumbnail = new_thumbnail
+
+	@property
+	def audio(self) -> Audio:
+		return self.__audio
+	@audio.setter
+	def audio(self,new_audio:Audio) -> None:
+		self.__audio = new_audio

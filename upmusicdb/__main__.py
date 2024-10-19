@@ -47,15 +47,20 @@ def main(argv:list[str],argc:int):
 				name:str = input("Name: ")
 				artist_id:int = int(input("Artist ID: "))
 				thumbnail_id:int = int(input("Thumbnail ID: "))
-				thumbnail:Objects.Image|None = controller.getImage(thumbnail_id)
-				artist:Objects.Artist|None = controller.getArtist(artist_id)
-				if thumbnail is None:
+				audio_id:int = int(input("Audio ID: "))
+				song_thumbnail:Objects.Image|None = controller.getImage(thumbnail_id)
+				song_artist:Objects.Artist|None = controller.getArtist(artist_id)
+				song_audio:Objects.Audio|None = controller.getAudio(audio_id)
+				if song_thumbnail is None:
 					print("[!] Image ID is invalid")
 					exit()
-				if artist is None:
+				if song_artist is None:
 					print("[!] Artist ID is invalid")
 					exit()
-				controller.newSong(name,artist,thumbnail)
+				if song_audio is None:
+					print("[!] Audio ID is invalid")
+					exit()
+				controller.newSong(name,song_artist,song_thumbnail,song_audio)
 				exit()
 
 main(argv,argc)

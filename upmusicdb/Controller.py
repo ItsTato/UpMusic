@@ -41,6 +41,7 @@ class Controller:
 			"Name" TEXT NOT NULL,
 			"ArtistID" INTEGER NOT NULL,
 			"ThumbnailID" INTEGER NOT NULL,
+			"AudioID" INTEGER NOT NULL,
 			PRIMARY KEY("ID" AUTOINCREMENT)
 		);
 		""")
@@ -186,14 +187,15 @@ class Controller:
 	def getSong(self,song_id:int) -> Song|None:
 		cursor = self.__connection.cursor()
 		cursor.execute("SELECT * FROM Songs WHERE ID = ?",(song_id,))
-		raw_song:tuple[int,str,int,int]|None = cursor.fetchone()
+		raw_song:tuple[int,str,int,int,int]|None = cursor.fetchone()
 		if raw_song is None:
 			return
 		song:Song = Song(
 			raw_song[0],
 			raw_song[1],
 			self.getArtist(raw_song[2]),#type:ignore
-			self.getImage(raw_artist[3])#type:ignore
+			self.getImage(raw_artist[3]),#type:ignore
+			self.getAudio(raw_song[4])#type:ignore
 		)
 		return song
 	
@@ -206,16 +208,16 @@ class Controller:
 		self.__connection.commit()
 		return
 	
-	def newSong(self,name:str,artist:Artist,thumbnail:Image) -> Song:
+	def newSong(self,name:str,artist:Artist,thumbnail:Image,audio:Audio) -> Song:
 		cursor = self.__connection.cursor()
-		cursor.execute("INSERT INTO Songs (Name,ArtistID,ThumbnailID) Values(?,?,?)",(name,artist.id,thumbnail.id))
+		cursor.execute("INSERT INTO Songs (Name,ArtistID,ThumbnailID,AudioID) Values(?,?,?,?)",(name,artist.id,thumbnail.id,audio.id))
 		self.__connection.commit()
 		return self.getSong(cursor.lastrowid)#type:ignore
 	
 	def getAllSongss(self) -> list[Song]:
 		cursor = self.__connection.cursor()
 		cursor.execute("SELECT * FROM Songs")
-		raw_songs:list[tuple[int,str,int,int]] = cursor.fetchall()
+		raw_songs:list[tuple[int,str,int,int,int]] = cursor.fetchall()
 		if raw_songs is None:
 			return []
 		songs:list[Song] = []
@@ -224,7 +226,8 @@ class Controller:
 				raw_song[0],
 				raw_song[1],
 				self.getArtist(raw_song[2]),#type:ignore
-				self.getImage(raw_song[3])#type:ignore
+				self.getImage(raw_song[3]),#type:ignore
+				self.getAudio(raw_song[4])#type:ignore
 			)
 			songs.append(song)
 		return songs
