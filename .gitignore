@@ -1,5 +1,8 @@
 .venv
-*.pyc
+*__pycache__
 data/music/*
-data/audio/*
+data/audios/*
 data/images/*
+data/users/*
+*.sqlite3
+*.key

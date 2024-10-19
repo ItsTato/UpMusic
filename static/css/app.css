@@ -212,8 +212,8 @@
 
 .mini-player-loop-icon {
 	position: relative;
-	top: -1px;
-	left: 13px;
+	top: -2px;
+	left: 15px;
 }
 
 .mini-player-like {
@@ -280,14 +280,13 @@
 	top: 4px;
 	right: 4px;
 	height: 52px;
-	border-radius: 8px;
+	border-radius: 12px;
 }
 
 .user-name {
 	position: relative;
 	font-size: 44px;
 	padding-right: 4px;
-	padding-left: 2px;
 }
 
 .user-pfp {
@@ -297,5 +296,5 @@
 	height: 44px;
 	width: 44px;
 	padding-left: 2px;
-	border-radius: 50%;
+	border-radius: 12px;
 }

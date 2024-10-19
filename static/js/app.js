@@ -13,26 +13,33 @@ const miniPlayerAudioNode = document.getElementById("mini-player-audio");
 const miniPlayerPlayButton = document.getElementById("mini-player-play");
 const miniPlayerBarFilled = document.getElementById("mini-player-bar-filled");
 const miniPlayerCover = document.getElementById("mini-player-cover");
-
+const miniPlayerName = document.getElementById("mini-player-name");
+const miniPlayerArtist = document.getElementById("mini-player-artist");
+const miniPlayerLoopButton = document.getElementById("mini-player-loop");
+const miniPlayerLoopButtonIcon = document.getElementById("mini-player-loop-icon");
+const miniPlayerLikeButton = document.getElementById("mini-player-like");
+const miniPlayerLikeButtonIcon = document.getElementById("mini-player-like-icon");
 const miniPlayerCurrentTime = document.getElementById("mini-player-current");
 const miniPlayerDurationTime = document.getElementById("mini-player-duration");
 
 var currentSongData = {
 	title: "None",
 	artist: "None",
-	audio_id: 0,
-	thumbnail_id: 0
+	thumbnail_id: 0,
+	audio_id: 0
 }
 
 miniPlayerAudioNode.controls = false;
 
 function updateTimes() {
 	miniPlayerCurrentTime.textContent = new Date(miniPlayerAudioNode.currentTime*1000)
-		.toISOString()
-		.substr(11,8);
+	.toISOString()
+	.substr(11,8)
+	.substr(3,7);
 	miniPlayerDurationTime.textContent = new Date(miniPlayerAudioNode.duration*1000)
-		.toISOString()
-		.substr(11,8);
+	.toISOString()
+	.substr(11,8)
+	.substr(3,7);
 };
 
 function playAudio() {
@@ -74,6 +81,21 @@ miniPlayerPlayButton.addEventListener("click", (e) => {
 	}
 });
 
+miniPlayerLoopButton.addEventListener("click", (e) => {
+	if (!miniPlayerAudioNode.loop) {
+		miniPlayerLoopButton.className = "mini-player-loop-active";
+		miniPlayerAudioNode.loop = true;
+	} else {
+		miniPlayerLoopButton.className = "mini-player-loop";
+		miniPlayerLoopButton.setAct
+		miniPlayerAudioNode.loop = false;
+	};
+});
+
+miniPlayerLikeButton.addEventListener("click", (e) => {
+	
+});
+
 miniPlayerAudioNode.addEventListener("timeupdate", (e) => {
 	updateTimes();
 	const prog = (100/(miniPlayerAudioNode.duration*1000))*(miniPlayerAudioNode.currentTime*1000);
@@ -84,14 +106,16 @@ miniPlayerAudioNode.addEventListener("timeupdate", (e) => {
 });
 
 function updateAudioPlayer() {
-	miniPlayerAudioNode.src = `/files/audio/${currentSongData.audio_id}`;
+	miniPlayerAudioNode.src = `/files/audios/${currentSongData.audio_id}`;
 	miniPlayerCover.src = `/files/images/${currentSongData.thumbnail_id}`;
+	miniPlayerName.innerText = currentSongData.title;
+	miniPlayerArtist.innerText = currentSongData.artist;
 	updateMedioSess();
 	updateTimes();
-}
+};
 
 function setMiniPlayerSong(song_id) {
-	fetch(`/songs/${song_id}`)
+	fetch(`/api/songs/${song_id}`)
 		.then((r) => {
 			return r.json();
 		})

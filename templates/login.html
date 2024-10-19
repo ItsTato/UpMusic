@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" href="/static/icons/favicon.ico">
+		<title>Login</title>
+
+		<link href="https://fonts.googleapis.com/css2?family=Cascadia+Code:wght@400;700&display=swap" rel="stylesheet">
+
+		<link rel="stylesheet" href="/static/css/all.css">
+		<link rel="stylesheet" href="/static/css/login.css">
+	</head>
+	<body class="body">
+		<div class="login">
+			<span class="login-title" id="login-title">UpMusic</span>
+			<span class="login-subtitle" id="login-subtitle">Your music-specific destiny awaits!</span>
+			<form class="form" id="form" action="/login" method="POST">
+				<label class="form-username-label" for="username">Username</label>
+				<input class="form-username-input" id="form-username-input" type="text" name="username" autocomplete="username" required>
+				<label class="form-password-label" for="password">Password</label>
+				<input class="form-password-input" id="form-password-input" type="password" name="password" autocomplete="current-password" required>
+				<input class="form-submit-button" id="form-submit-button" type="submit" value="Login">
+			</form>
+		</div>
+	</body>
+</html>

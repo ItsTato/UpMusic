@@ -17,6 +17,10 @@
 				<img class="home-button-image" id="home-button-image" src="/static/icons/home.png" width="48" height="48">
 				<span class="home-button-text" id="home-button-text">Home</span>
 			</div>
+			<div class="all-button" id="all-button">
+				<img class="all-button-image" id="all-button-image" src="/static/icons/all.png" width="48" height="48">
+				<span class="all-button-text" id="all-button-text">All</span>
+			</div>
 			<div class="library-button" id="library-button">
 				<img class="library-button-image" id="library-button-image" src="/static/icons/library.png" width="48" height="48">
 				<span class="library-button-text" id="library-button-text">Library</span>
@@ -31,14 +35,41 @@
 					<span class="mini-player-duration" id="mini-player-duration">00:00</span>
 				</div>
 
+				<span class="mini-player-name" id="mini-player-name">Not Playing</span>
+				<span class="mini-player-artist" id="mini-player-artist">I am a Placeholder</span>
+
+				<div class="mini-player-loop" id="mini-player-loop">
+					<img class="mini-player-loop-icon" id="mini-player-loop-icon" width="56" height="56" src="/static/icons/repeat.png">
+				</div>
+
+				<div class="mini-player-like" id="mini-player-like">
+					<img class="mini-player-like-icon" id="mini-player-like-icon" width="56" height="56" src="/static/icons/like.png">
+				</div>
+
 				<img class="mini-player-play" id="mini-player-play" src="/static/icons/play.png" width="48" height="48">
 
 				<audio id="mini-player-audio"></audio>
 			</div>
 		</div>
 
+		<div class="tabs-home" id="tabs-home">
+
+		</div>
+
+		<div class="tabs-all" id="tabs-all">
+
+		</div>
+
+		<div class="tabs-library" id="tabs-library">
+
+		</div>
+
 		<div class="topbar" id="topbar">
 			<div class="toptext" id="toptext">UpMusic</div>
+			<div class="user" id="user">
+				<img class="user-pfp" id="user-pfp" src="/files/pfps/{{user_id}}">
+				<span class="user-name" id="user-name">{{user_name}}</span>
+			</div>
 		</div>
 
 		<script src="/static/js/app.js"></script>
