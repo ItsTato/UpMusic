@@ -23,6 +23,7 @@ const miniPlayerCurrentTime = document.getElementById("mini-player-current");
 const miniPlayerDurationTime = document.getElementById("mini-player-duration");
 
 var currentSongData = {
+	song_id: 0,
 	title: "None",
 	artist: "None",
 	thumbnail_id: 0,
@@ -87,13 +88,61 @@ miniPlayerLoopButton.addEventListener("click", (e) => {
 		miniPlayerAudioNode.loop = true;
 	} else {
 		miniPlayerLoopButton.className = "mini-player-loop";
-		miniPlayerLoopButton.setAct
 		miniPlayerAudioNode.loop = false;
 	};
 });
 
+function isLiked(song_id) {
+	return fetch(`/api/songs/${song_id}/like`, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json"
+		}
+	})
+	.then(res => res.json())
+	.then(data => {
+		return data["Liked"];
+	});
+};
+
+function likeSong(song_id) {
+	return fetch(`/api/songs/${song_id}/like`, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json"
+		}
+	})
+	.then(res => res.json())
+	.then(data => {
+		return data["Liked"];
+	});
+};
+
+function unlikeSong(song_id) {
+	return fetch(`/api/songs/${song_id}/like`, {
+		method: "DELETE",
+		headers: {
+			"Content-Type": "application/json"
+		}
+	})
+	.then(res => {return res.json()})
+	.then(data => {
+		return data["Liked"];
+	});
+};
+
 miniPlayerLikeButton.addEventListener("click", (e) => {
-	
+	isLiked(currentSongData["song_id"]).then(isLiked => {
+		if (isLiked) {
+			unlikeSong(currentSongData["song_id"]);
+			miniPlayerLikeButton.className = "mini-player-like";
+			miniPlayerLikeButtonIcon.src = "/static/icons/like.png";
+		} else {
+			likeSong(currentSongData["song_id"]);
+			miniPlayerLikeButton.className = "mini-player-like-active";
+			miniPlayerLikeButtonIcon.src = "/static/icons/remove.png";
+		};
+	});
 });
 
 miniPlayerAudioNode.addEventListener("timeupdate", (e) => {
@@ -116,14 +165,24 @@ function updateAudioPlayer() {
 
 function setMiniPlayerSong(song_id) {
 	fetch(`/api/songs/${song_id}`)
-		.then((r) => {
-			return r.json();
-		})
-		.then((data) => {
-			currentSongData = data;
-			updateAudioPlayer();
-			pauseAudio();
+	.then((r) => {
+		return r.json();
+	})
+	.then((data) => {
+		currentSongData = data;
+		currentSongData["song_id"] = song_id;
+		isLiked(song_id).then(isLiked => {
+			if (isLiked) {
+				miniPlayerLikeButton.className = "mini-player-like-active";
+				miniPlayerLikeButtonIcon.src = "/static/icons/remove.png";
+			} else {
+				miniPlayerLikeButton.className = "mini-player-like";
+				miniPlayerLikeButtonIcon.src = "/static/icons/like.png";
+			};
 		});
+		pauseAudio();
+		updateAudioPlayer();
+	});
 };
 
 setMiniPlayerSong(1);

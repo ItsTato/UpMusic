@@ -18,21 +18,6 @@ def index():
 		return flask.redirect("/login")
 	return flask.redirect("/app")
 
-@site.route("/api/songs/<song_id>")
-def api_songs_id(song_id:int):
-	if not flask.session.get("user"):
-		return flask.redirect("/login")
-	song_id = int(song_id)
-	song:Objects.Song|None = updb.getSong(song_id)
-	if song is not None:
-		return {
-			"title": song.name,
-			"artist": song.artist.name,
-			"thumbnail_id": song.thumbnail.id,
-			"audio_id": song.audio.id
-		}
-	return {}
-
 @site.route("/files/audios/<audio_id>")
 def files_audio_id(audio_id:int):
 	if not flask.session.get("user"):
@@ -58,6 +43,42 @@ def files_pfps_id(user_id:int):
 	if not flask.session.get("user"):
 		return flask.redirect("/login")
 	return flask.send_from_directory(f"./data/users/{user_id}","pfp.png")
+
+@site.route("/api/songs/<song_id>")
+def api_songs_id(song_id:int):
+	if not flask.session.get("user"):
+		return flask.redirect("/login")
+	song_id = int(song_id)
+	song:Objects.Song|None = updb.getSong(song_id)
+	if song is not None:
+		return {
+			"title": song.name,
+			"artist": song.artist.name,
+			"thumbnail_id": song.thumbnail.id,
+			"audio_id": song.audio.id
+		}
+	return {}
+
+@site.route("/api/songs/<song_id>/like",methods=["GET","POST","DELETE"])
+def api_songs_id_like(song_id:int):
+	if not flask.session.get("user"):
+		return flask.redirect("/login")
+	song_id = int(song_id)
+	with open(f"./data/users/{flask.session['user']['ID']}/playlists.json","r") as file:
+		data:dict[str,list] = load(file)
+	if flask.request.method.upper() == "GET":
+		return {"Liked": song_id in data["Likes"]}
+	if flask.request.method.upper() == "POST":
+		data["Likes"].append(song_id)
+		with open(f"./data/users/{flask.session['user']['ID']}/playlists.json","w") as file:
+			dump(data,file)
+		return {"Liked": True}, 200
+	if flask.request.method.upper() == "DELETE":
+		data["Likes"].remove(song_id)
+		with open(f"./data/users/{flask.session['user']['ID']}/playlists.json","w") as file:
+			dump(data,file)
+		return {"Liked": False}, 200
+	return "Uhm... What?", 404
 
 @site.route("/app",methods=["GET"])
 def app():
