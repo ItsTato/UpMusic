@@ -244,7 +244,7 @@ function setToLibraryTab() {
 			if (i==0) {
 				songNode.style.top = `${6+64*(i)}px`;
 			} else {
-				songNode.style.top = `${12+64*(i)}px`;
+				songNode.style.top = `${(6*i+1)+64*(i)}px`;
 			};
 			songNode.addEventListener("click", (e) => {
 				data["Songs"].forEach(function(song,i) {
