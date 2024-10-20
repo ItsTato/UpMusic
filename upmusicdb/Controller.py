@@ -214,7 +214,7 @@ class Controller:
 		self.__connection.commit()
 		return self.getSong(cursor.lastrowid)#type:ignore
 	
-	def getAllSongss(self) -> list[Song]:
+	def getAllSongs(self) -> list[Song]:
 		cursor = self.__connection.cursor()
 		cursor.execute("SELECT * FROM Songs")
 		raw_songs:list[tuple[int,str,int,int,int]] = cursor.fetchall()
