@@ -41,6 +41,9 @@ var currentSongData = {
 
 var librarySongListNodes = [];
 
+var songQueue = [];
+let songEnded = false;
+
 miniPlayerAudioNode.controls = false;
 
 function updateTimes() {
@@ -160,8 +163,18 @@ miniPlayerAudioNode.addEventListener("timeupdate", (e) => {
 	updateTimes();
 	const prog = (100/(miniPlayerAudioNode.duration*1000))*(miniPlayerAudioNode.currentTime*1000);
 	miniPlayerBarFilled.style.width = `${prog}%`;
-	if (prog == 100) {
+	if (miniPlayerAudioNode.currentTime >= miniPlayerAudioNode.duration && !songEnded) {
+		songEnded = true;
 		miniPlayerPlayButton.src = "/static/icons/play.png";
+		if (!miniPlayerAudioNode.loop) {
+			songQueue = [...songQueue.slice(1), ...songQueue.slice(0, 1)];
+			setMiniPlayerSong(songQueue[0])
+			.then(() => {
+				playAudio();
+			});
+		};
+	} else if (miniPlayerAudioNode.currentTime < miniPlayerAudioNode.duration) {
+		songEnded = false;
 	};
 });
 
@@ -234,6 +247,10 @@ function setToLibraryTab() {
 				songNode.style.top = `${12+64*(i)}px`;
 			};
 			songNode.addEventListener("click", (e) => {
+				data["Songs"].forEach(function(song,i) {
+					songQueue.push(song.song_id);
+				});
+				songQueue = [...songQueue.slice(i),...songQueue.slice(0,i)];
 				setMiniPlayerSong(song.song_id)
 				.then(() => {
 					playAudio();
