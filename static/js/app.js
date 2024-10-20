@@ -7,7 +7,16 @@ console.log("\
 ");
 
 const homeButton = document.getElementById("home-button");
+const allButton = document.getElementById("all-button");
 const libraryButton = document.getElementById("library-button");
+
+const homeTab = document.getElementById("tabs-home");
+
+const allTab = document.getElementById("tabs-all");
+
+const libraryTab = document.getElementById("tabs-library");
+const libraryTabSongList = document.getElementById("tabs-library-list");
+const libraryTabSongTemplate = document.getElementById("tabs-library-song");
 
 const miniPlayerAudioNode = document.getElementById("mini-player-audio");
 const miniPlayerPlayButton = document.getElementById("mini-player-play");
@@ -29,6 +38,8 @@ var currentSongData = {
 	thumbnail_id: 0,
 	audio_id: 0
 }
+
+var librarySongListNodes = [];
 
 miniPlayerAudioNode.controls = false;
 
@@ -79,7 +90,7 @@ miniPlayerPlayButton.addEventListener("click", (e) => {
 		playAudio();
 	} else {
 		pauseAudio();
-	}
+	};
 });
 
 miniPlayerLoopButton.addEventListener("click", (e) => {
@@ -160,17 +171,18 @@ function updateAudioPlayer() {
 	miniPlayerName.innerText = currentSongData.title;
 	miniPlayerArtist.innerText = currentSongData.artist;
 	updateMedioSess();
-	updateTimes();
+	if (!miniPlayerAudioNode.paused) {
+		updateTimes();
+	};
 };
 
 function setMiniPlayerSong(song_id) {
-	fetch(`/api/songs/${song_id}`)
+	return fetch(`/api/songs/${song_id}`)
 	.then((r) => {
 		return r.json();
 	})
 	.then((data) => {
 		currentSongData = data;
-		currentSongData["song_id"] = song_id;
 		isLiked(song_id).then(isLiked => {
 			if (isLiked) {
 				miniPlayerLikeButton.className = "mini-player-like-active";
@@ -180,9 +192,69 @@ function setMiniPlayerSong(song_id) {
 				miniPlayerLikeButtonIcon.src = "/static/icons/like.png";
 			};
 		});
-		pauseAudio();
 		updateAudioPlayer();
 	});
 };
 
-setMiniPlayerSong(1);
+fetch("/api/last-played")
+.then(res => res.json())
+.then(data => {
+	setMiniPlayerSong(data["LastPlayed"]);
+});
+
+function setToHomeTab() {
+	homeTab.style.display = "inline";
+	allTab.style.display = "none";
+	libraryTab.style.display = "none";
+};
+
+function setToAllTab() {
+	homeTab.style.display = "none";
+	allTab.style.display = "inline";
+	libraryTab.style.display = "none";
+};
+
+function setToLibraryTab() {
+	homeTab.style.display = "none";
+	allTab.style.display = "none";
+	libraryTab.style.display = "inline";
+
+	fetch("/api/liked-songs")
+	.then(res => res.json())
+	.then(data => {
+		data["Songs"].forEach(function(song,i) {
+			let songNode = libraryTabSongTemplate.cloneNode(true);
+			songNode.querySelector("#tabs-library-song-thumbnail").src = `/files/images/${song.thumbnail_id}`;
+			songNode.querySelector("#tabs-library-song-name").innerText = song.title;
+			songNode.querySelector("#tabs-library-song-artist").innerText = song.artist;
+			songNode.style.display = "inline";
+			if (i==0) {
+				songNode.style.top = `${6+64*(i)}px`;
+			} else {
+				songNode.style.top = `${12+64*(i)}px`;
+			};
+			songNode.addEventListener("click", (e) => {
+				setMiniPlayerSong(song.song_id)
+				.then(() => {
+					playAudio();
+				});
+			});
+			libraryTabSongList.appendChild(songNode);
+			librarySongListNodes.push(songNode);
+		});
+	});
+};
+
+homeButton.addEventListener("click", (e) => {
+	setToHomeTab();
+});
+
+allButton.addEventListener("click", (e) => {
+	setToAllTab();
+});
+
+libraryButton.addEventListener("click", (e) => {
+	setToLibraryTab();
+});
+
+setToLibraryTab();

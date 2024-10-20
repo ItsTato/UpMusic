@@ -52,8 +52,10 @@ def api_songs_id(song_id:int):
 	song:Objects.Song|None = updb.getSong(song_id)
 	if song is not None:
 		return {
+			"song_id": song_id,
 			"title": song.name,
 			"artist": song.artist.name,
+			"artist_id": song.artist.id,
 			"thumbnail_id": song.thumbnail.id,
 			"audio_id": song.audio.id
 		}
@@ -79,6 +81,54 @@ def api_songs_id_like(song_id:int):
 			dump(data,file)
 		return {"Liked": False}, 200
 	return "Uhm... What?", 404
+
+@site.route("/api/last-played",methods=["GET","UPDATE"])
+def api_last_played():
+	if not flask.session.get("user"):
+		return flask.redirect("/login")
+	if flask.request.method.upper() == "GET":
+		return {"LastPlayed": flask.session["user"]["LastPlayed"]}
+	if flask.request.method.upper() == "UPDATE":
+		flask.session["user"]["LastPlayed"] = flask.request.get_json()["song_id"]
+		with open(f"./data/users/{flask.session['ID']}/meta.json","w") as file:
+			dump(flask.session["user"],file)
+		return {"LastPlayed": flask.session["user"]["LastPlayed"]}, 200
+	return "i swear", 200
+
+@site.route("/api/liked-songs",methods=["GET"])
+def api_liked_songs():
+	if not flask.session.get("user"):
+		return flask.redirect("/login")
+	with open(f"./data/users/{flask.session['user']['ID']}/playlists.json","r") as file:
+		data:dict[str,list] = load(file)
+	songs:list[dict[str,str|int]] = []
+	for song_id in data["Likes"]:
+		song:Objects.Song = updb.getSong(song_id)#type:ignore
+		songs.append({
+			"song_id": song.id,
+			"title": song.name,
+			"artist": song.artist.name,
+			"artist_id": song.artist.id,
+			"thumbnail_id": song.thumbnail.id,
+			"audio_id": song.audio.id
+		})
+	return {"Songs": songs}
+
+@site.route("/api/all-songs",methods=["GET"])
+def api_all_songs():
+	if not flask.session.get("user"):
+		return flask.redirect("/login")
+	songs:list[dict[str,str|int]] = []
+	for song in updb.getAllSongs():
+		songs.append({
+			"song_id": song.id,
+			"title": song.name,
+			"artist": song.artist.name,
+			"artist_id": song.artist.id,
+			"thumbnail_id": song.thumbnail.id,
+			"audio_id": song.audio.id
+		})
+	return {"Songs": songs}
 
 @site.route("/app",methods=["GET"])
 def app():
@@ -108,6 +158,6 @@ def login():
 				else:
 					return "Something was incorrect, idiot!"
 		return "Something was incorrect, idiot!"
-	return "The request was not understood", 500
+	return "stop messing with this already", 200
 
 site.run("localhost",4646)

@@ -298,3 +298,78 @@
 	padding-left: 2px;
 	border-radius: 12px;
 }
+
+.tab-title {
+	position: absolute;
+	top: 72px;
+	left: 212px;
+	font-size: 36px;
+}
+
+.tabs-home {
+	display: none;
+}
+
+.tabs-all {
+	display: none;
+}
+
+.tabs-library {
+	display: none;
+}
+
+.tabs-library-list {
+	position: absolute;
+	background-color: var(--dark-background-secondary);
+	top: 120px;
+	left: 212px;
+	right: 12px;
+	bottom: 12px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	border-radius: 12px;
+}
+
+.tabs-library-song {
+	display: none;
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	left: 6px;
+	height: 64px;
+	background-color: var(--dark-background-main);
+	border-radius: 12px;
+}
+
+.tabs-library-song:hover {
+	cursor: pointer;
+}
+
+.tabs-library-song-thumbnail {
+	position: absolute;
+	top: 4px;
+	left: 6px;
+	height: 56px;
+	width: 56px;
+	border-radius: 12px;
+}
+
+.tabs-library-song-name {
+	position: absolute;
+	top: 8px;
+	left: 72px;
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.tabs-library-song-artist {
+	position: absolute;
+	top: 34px;
+	left: 72px;
+	font-size: 18px;
+}
+
+.tabs-library-song-artist:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
