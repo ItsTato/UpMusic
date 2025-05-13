@@ -1,6 +1,8 @@
-from .Objects import Artist, Audio, Image, Song
+from .Objects import Artist, Audio, Image, Song, User, Playlist
 
 import sqlite3
+import json
+import bcrypt
 import os
 
 class Controller:
@@ -45,11 +47,61 @@ class Controller:
 			PRIMARY KEY("ID" AUTOINCREMENT)
 		);
 		""")
+		cursor.execute("""
+		CREATE TABLE IF NOT EXISTS "Users" (
+			"ID" INTEGER NOT NULL UNIQUE,
+			"Username" TEXT NOT NULL,
+			"Password" TEXT NOT NULL,
+			"Liked Songs" TEXT NOT NULL DEFAULT '[]',
+			"Playlists" TEXT NOT NULL DEFAULT '[]',
+			"PfpID" INTEGER NOT NULL,
+			"Admin" INTEGER NOT NULL DEFAULT 0,
+			PRIMARY KEY("ID" AUTOINCREMENT)
+		);
+		""")
 		self.__connection.commit()
 	
 	def Close(self) -> None:
 		self.__connection.close()
+
+	@staticmethod
+	def hashPassword(password:str) -> bytes:
+		return bcrypt.hashpw(password.encode("UTF-8"),salt=bcrypt.gensalt())
 	
+	def getUserByID(self,user_id:int) -> User|None:
+		cursor = self.__connection.cursor()
+		cursor.execute("SELECT * FROM Users WHERE ID = ?",(user_id,))
+		raw_user:tuple[int,str,str,str,str,int,int]|None = cursor.fetchone()
+		if raw_user is None:
+			return None
+		user:User = User(
+			raw_user[0],
+			raw_user[1],
+			raw_user[2],
+			Playlist(json.loads(raw_user[3])),
+			json.loads(raw_user[4]),
+			self.getImage(raw_user[5]),#type:ignore
+			raw_user[6]
+		)
+		return user
+	
+	def getUserByUsername(self,username:str) -> User|None:
+		cursor = self.__connection.cursor()
+		cursor.execute("SELECT * FROM Users WHERE Username = ?",(username,))
+		raw_user:tuple[int,str,str,str,str,int,int]|None = cursor.fetchone()
+		if raw_user is None:
+			return None
+		user:User = User(
+			raw_user[0],
+			raw_user[1],
+			raw_user[2],
+			Playlist(json.loads(raw_user[3])),
+			json.loads(raw_user[4]),
+			self.getImage(raw_user[5]),#type:ignore
+			raw_user[6]
+		)
+		return user
+
 	def getImage(self,image_id:int) -> Image|None:
 		cursor = self.__connection.cursor()
 		cursor.execute("SELECT * FROM Images WHERE ID = ?",(image_id,))
