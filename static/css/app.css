@@ -312,6 +312,63 @@
 
 .tabs-all {
 	display: none;
+
+}
+
+.tabs-all-list {
+	position: absolute;
+	background-color: var(--dark-background-secondary);
+	top: 120px;
+	left: 212px;
+	right: 12px;
+	bottom: 12px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	border-radius: 12px;
+}
+
+.tabs-all-song {
+	display: none;
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	left: 6px;
+	height: 64px;
+	background-color: var(--dark-background-main);
+	border-radius: 12px;
+}
+
+.tabs-all-song:hover {
+	cursor: pointer;
+}
+
+.tabs-all-song-thumbnail {
+	position: absolute;
+	top: 4px;
+	left: 6px;
+	height: 56px;
+	width: 56px;
+	border-radius: 12px;
+}
+
+.tabs-all-song-name {
+	position: absolute;
+	top: 8px;
+	left: 72px;
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.tabs-all-song-artist {
+	position: absolute;
+	top: 34px;
+	left: 72px;
+	font-size: 18px;
+}
+
+.tabs-all-song-artist:hover {
+	text-decoration: underline;
+	cursor: pointer;
 }
 
 .tabs-library {

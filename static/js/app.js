@@ -13,6 +13,8 @@ const libraryButton = document.getElementById("library-button");
 const homeTab = document.getElementById("tabs-home");
 
 const allTab = document.getElementById("tabs-all");
+const allTabSongList = document.getElementById("tabs-all-list");
+const allTabSongTemplate = document.getElementById("tabs-all-song");
 
 const libraryTab = document.getElementById("tabs-library");
 const libraryTabSongList = document.getElementById("tabs-library-list");
@@ -225,6 +227,35 @@ function setToAllTab() {
 	homeTab.style.display = "none";
 	allTab.style.display = "inline";
 	libraryTab.style.display = "none";
+
+	fetch("/api/all-songs")
+	.then(res => res.json())
+	.then(data => {
+		data["Songs"].forEach(function(song,i) {
+			console.log(song);
+			let songNode = allTabSongTemplate.cloneNode(true);
+			songNode.querySelector("#tabs-all-song-thumbnail").src = `/files/images/${song.thumbnail_id}`;
+			songNode.querySelector("#tabs-all-song-name").innerText = song.title;
+			songNode.querySelector("#tabs-all-song-artist").innerText = song.artist;
+			songNode.style.display = "inline";
+			if (i==0) {
+				songNode.style.top = `${6+64*(i)}px`;
+			} else {
+				songNode.style.top = `${(6*(i+1))+64*(i)}px`;
+			};
+			songNode.addEventListener("click", (e) => {
+				data["Songs"].forEach(function(song,i) {
+					songQueue.push(song.song_id);
+				});
+				songQueue = [...songQueue.slice(i),...songQueue.slice(0,i)];
+				setMiniPlayerSong(song.song_id)
+				.then(() => {
+					playAudio();
+				});
+			});
+			allTabSongList.appendChild(songNode);
+		});
+	});
 };
 
 function setToLibraryTab() {
@@ -257,7 +288,6 @@ function setToLibraryTab() {
 				});
 			});
 			libraryTabSongList.appendChild(songNode);
-			librarySongListNodes.push(songNode);
 		});
 	});
 };
