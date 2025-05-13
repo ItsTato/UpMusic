@@ -9,6 +9,8 @@ console.log("\
 const homeButton = document.getElementById("home-button");
 const allButton = document.getElementById("all-button");
 const libraryButton = document.getElementById("library-button");
+// const userButton = document.getElementById("user-button");  User will be for when you click on one.
+const accountButton = document.getElementById("account-button");
 
 const homeTab = document.getElementById("tabs-home");
 
@@ -19,6 +21,10 @@ const allTabSongTemplate = document.getElementById("tabs-all-song");
 const libraryTab = document.getElementById("tabs-library");
 const libraryTabSongList = document.getElementById("tabs-library-list");
 const libraryTabSongTemplate = document.getElementById("tabs-library-song");
+
+const userTab = document.getElementById("tabs-user");
+
+const accountTab = document.getElementById("tabs-account");
 
 const miniPlayerAudioNode = document.getElementById("mini-player-audio");
 const miniPlayerPlayButton = document.getElementById("mini-player-play");
@@ -221,12 +227,16 @@ function setToHomeTab() {
 	homeTab.style.display = "inline";
 	allTab.style.display = "none";
 	libraryTab.style.display = "none";
+	userTab.style.display = "none";
+	accountTab.style.display = "none";
 };
 
 function setToAllTab() {
 	homeTab.style.display = "none";
 	allTab.style.display = "inline";
 	libraryTab.style.display = "none";
+	userTab.style.display = "none";
+	accountTab.style.display = "none";
 
 	fetch("/api/all-songs")
 	.then(res => res.json())
@@ -262,6 +272,8 @@ function setToLibraryTab() {
 	homeTab.style.display = "none";
 	allTab.style.display = "none";
 	libraryTab.style.display = "inline";
+	userTab.style.display = "none";
+	accountTab.style.display = "none";
 
 	fetch("/api/liked-songs")
 	.then(res => res.json())
@@ -292,6 +304,22 @@ function setToLibraryTab() {
 	});
 };
 
+function setToUserTab() {
+	homeTab.style.display = "none";
+	allTab.style.display = "none";
+	libraryTab.style.display = "none";
+	userTab.style.display = "inline";
+	accountTab.style.display = "none";
+}
+
+function setToAccountTab() {
+	homeTab.style.display = "none";
+	allTab.style.display = "none";
+	libraryTab.style.display = "none";
+	userTab.style.display = "none";
+	accountTab.style.display = "inline";
+}
+
 homeButton.addEventListener("click", (e) => {
 	setToHomeTab();
 });
@@ -302,6 +330,10 @@ allButton.addEventListener("click", (e) => {
 
 libraryButton.addEventListener("click", (e) => {
 	setToLibraryTab();
+});
+
+accountButton.addEventListener("click", (e) => {
+	setToAccountTab();
 });
 
 setToLibraryTab();
