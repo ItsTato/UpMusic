@@ -1,3 +1,6 @@
+# Archival
+This repository has been migrated to https://git.tlet.xyz/UpArrow/UpMusic.
+
 # UpMusic
 Self-hostable music app made in Python (backend) and JS (frontend). No fancy JS fameworks, no over-complications.
 
